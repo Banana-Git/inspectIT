@@ -48,8 +48,9 @@ public class AgentDataRestfulService {
 	
 	@RequestMapping(method = RequestMethod.GET, value = "myOverview")
 	@ResponseBody
+	// returns Map like this one: {"tomcat":"CONNECTED","jetty":"DISCONNECTED"}
 	public Map<String, AgentStatusData.AgentConnection> getMyAgentsOverview() {
-		Map<PlatformIdent, AgentStatusData> agentsOverviewMap = globalDataAccessService.getAgentsOverview();
+		Map<PlatformIdent, AgentStatusData> agentsOverviewMap = getAgentsOverview();
 		Map<String, AgentStatusData.AgentConnection> agentsMap = new HashMap<String, AgentStatusData.AgentConnection>();
 		
 		for (PlatformIdent platformIdent : agentsOverviewMap.keySet()) {
