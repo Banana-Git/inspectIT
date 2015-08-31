@@ -3,9 +3,12 @@ package info.novatec.inspectit.cmr.service.rest;
 import info.novatec.inspectit.cmr.model.PlatformIdent;
 import info.novatec.inspectit.cmr.service.IGlobalDataAccessService;
 import info.novatec.inspectit.cmr.service.rest.error.JsonError;
+import info.novatec.inspectit.cmr.util.AgentStatusDataProvider;
 import info.novatec.inspectit.communication.data.cmr.AgentStatusData;
+import info.novatec.inspectit.communication.data.cmr.AgentStatusData.AgentConnection;
 import info.novatec.inspectit.exception.BusinessException;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +34,29 @@ public class AgentDataRestfulService {
 	@Autowired
 	private IGlobalDataAccessService globalDataAccessService;
 	
+	/**
+	 * {@link AgentStatusDataProvider}.
+	 */
+	@Autowired
+	AgentStatusDataProvider agentStatusProvider;
+	
 	@RequestMapping(method = RequestMethod.GET, value = "overview")
 	@ResponseBody
-	public Map<PlatformIdent, AgentStatusData> getAgentsOverview() {
+	public Map<PlatformIdent, AgentStatusData> getAgentsOverview() {		
 		return globalDataAccessService.getAgentsOverview();
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "myOverview")
+	@ResponseBody
+	public Map<String, AgentStatusData.AgentConnection> getMyAgentsOverview() {
+		Map<PlatformIdent, AgentStatusData> agentsOverviewMap = globalDataAccessService.getAgentsOverview();
+		Map<String, AgentStatusData.AgentConnection> agentsMap = new HashMap<String, AgentStatusData.AgentConnection>();
+		
+		for (PlatformIdent platformIdent : agentsOverviewMap.keySet()) {
+			agentsMap.put(platformIdent.getAgentName(), agentsOverviewMap.get(platformIdent).getAgentConnection());
+		}
+		
+		return agentsMap;
 	}
 
 	/**
