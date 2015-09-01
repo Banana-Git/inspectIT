@@ -58,8 +58,8 @@ public class AgentDataRestfulService {
 		for (PlatformIdent platformIdent : agentsOverviewMap.keySet()) {
 			// agentsMap.put(platformIdent.getAgentName(), agentsOverviewMap.get(platformIdent).getAgentConnection());
 			agentsMap.put(platformIdent.getAgentName(),
-					agentsOverviewMap.get(platformIdent).getAgentConnection().toString() + ", id=" + platformIdent.getId() + ", getMethodIdents=" + platformIdent.getMethodIdents()
-							+ ", getSensorTypeIdents=" + platformIdent.getSensorTypeIdents() + ", Version=" + platformIdent.getVersion());
+					agentsOverviewMap.get(platformIdent).getAgentConnection().toString() + ", id=" + platformIdent.getId() + ", getMethodIdents=" + platformIdent.getMethodIdents().toString()
+							+ ", getSensorTypeIdents=" + platformIdent.getSensorTypeIdents().toString() + ", Version=" + platformIdent.getVersion());
 		}
 		
 		return agentsMap;
