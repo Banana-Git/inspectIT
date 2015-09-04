@@ -39,7 +39,8 @@ public class AgentDataRestfulService {
 
 	/**
 	 * Reference to the existing {@link IInvocationDataAccessService}.
-	 */	
+	 */
+	@Autowired
 	private IInvocationDataAccessService invocationDataAccessService;
 	
 	
@@ -49,7 +50,7 @@ public class AgentDataRestfulService {
 	 * Returns Overview of captured invocation sequences
 	 * <p>
 	 * 
-	 * <i> Example URL: /agentdata/get-invocation-sequences?id=30</i>
+	 * <i> Example URL: /agentdata/get-invocation-sequences?platformId=30</i>
 	 * 
 	 * @param platformId
 	 * @return
@@ -62,8 +63,11 @@ public class AgentDataRestfulService {
 		return invocationDataAccessService.getInvocationSequenceOverview(platformId, 100, null);
 	}
 	
-	
-	
+	@RequestMapping(method = RequestMethod.GET, value = "get-invocation-sequences30")
+	@ResponseBody
+	public List<InvocationSequenceData> getInvocationSequenceOverviewFix() {
+		return invocationDataAccessService.getInvocationSequenceOverview(30, 100, null);
+	}
 	
 	
 	
