@@ -2,13 +2,16 @@ package info.novatec.inspectit.cmr.service.rest;
 
 import info.novatec.inspectit.cmr.model.PlatformIdent;
 import info.novatec.inspectit.cmr.service.IGlobalDataAccessService;
+import info.novatec.inspectit.cmr.service.IInvocationDataAccessService;
 import info.novatec.inspectit.cmr.service.rest.error.JsonError;
 import info.novatec.inspectit.cmr.util.AgentStatusDataProvider;
+import info.novatec.inspectit.communication.comparator.ResultComparator;
+import info.novatec.inspectit.communication.data.InvocationSequenceData;
 import info.novatec.inspectit.communication.data.cmr.AgentStatusData;
-import info.novatec.inspectit.communication.data.cmr.AgentStatusData.AgentConnection;
 import info.novatec.inspectit.exception.BusinessException;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +36,36 @@ public class AgentDataRestfulService {
 	 */
 	@Autowired
 	private IGlobalDataAccessService globalDataAccessService;
+
+	/**
+	 * Reference to the existing {@link IInvocationDataAccessService}.
+	 */	
+	private IInvocationDataAccessService invocationDataAccessService;
+	
+	
+	
+	
+	/**
+	 * Returns Overview of captured invocation sequences
+	 * <p>
+	 * 
+	 * <i> Example URL: /agentdata/get-invocation-sequences?id=30</i>
+	 * 
+	 * @param platformId
+	 * @return
+	 * @throws BusinessException 
+	 * @throws ServiceException
+	 */
+	@RequestMapping(method = RequestMethod.GET, value = "get-invocation-sequences")
+	@ResponseBody
+	public List<InvocationSequenceData> getInvocationSequenceOverview(@RequestParam(value = "platformId", required = true) long platformId) {
+		return invocationDataAccessService.getInvocationSequenceOverview(platformId, 100, null);
+	}
+	
+	
+	
+	
+	
 	
 	/**
 	 * {@link AgentStatusDataProvider}.
