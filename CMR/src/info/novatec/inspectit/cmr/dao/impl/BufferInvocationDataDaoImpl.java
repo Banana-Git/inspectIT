@@ -65,7 +65,7 @@ public class BufferInvocationDataDaoImpl extends AbstractBufferDataDao<Invocatio
 		}
 		List<InvocationSequenceData> realResults = new ArrayList<InvocationSequenceData>(resultWithChildren.size());
 		for (InvocationSequenceData invocationSequenceData : resultWithChildren) {
-			realResults.add(invocationSequenceData.getClonedInvocationSequence());
+			realResults.add(invocationSequenceData.cloneWithoutNestedSequences());
 		}
 		return realResults;
 
@@ -85,7 +85,7 @@ public class BufferInvocationDataDaoImpl extends AbstractBufferDataDao<Invocatio
 		}
 		List<InvocationSequenceData> realResults = new ArrayList<InvocationSequenceData>(resultWithChildren.size());
 		for (InvocationSequenceData invocationSequenceData : resultWithChildren) {
-			realResults.add(invocationSequenceData.getClonedInvocationSequence());
+			realResults.add(invocationSequenceData.cloneWithoutNestedSequences());
 		}
 		return realResults;
 	}

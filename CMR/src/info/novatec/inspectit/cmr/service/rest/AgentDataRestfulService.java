@@ -67,8 +67,6 @@ public class AgentDataRestfulService {
 		return invocationDataAccessService.getInvocationSequenceOverview(platformId, 100, null);
 	}
 
-	
-	
 	@RequestMapping(method = RequestMethod.GET, value = "overview")
 	@ResponseBody
 	public Map<PlatformIdent, AgentStatusData> getAgentsOverview() {		
