@@ -43,6 +43,11 @@ public class AgentDataRestfulService {
 	@Autowired
 	private IInvocationDataAccessService invocationDataAccessService;
 	
+	/**
+	 * {@link AgentStatusDataProvider}.
+	 */
+	@Autowired
+	AgentStatusDataProvider agentStatusProvider;
 		
 	
 	/**
@@ -61,20 +66,8 @@ public class AgentDataRestfulService {
 	public List<InvocationSequenceData> getInvocationSequenceOverview(@RequestParam(value = "platformId", required = true) long platformId) {	
 		return invocationDataAccessService.getInvocationSequenceOverview(platformId, 100, null);
 	}
+
 	
-	@RequestMapping(method = RequestMethod.GET, value = "get-invocation-sequences30")
-	@ResponseBody
-	public List<InvocationSequenceData> getInvocationSequenceOverviewFix() {
-		return invocationDataAccessService.getInvocationSequenceOverview(30, 100, null);
-	}
-	
-	
-	
-	/**
-	 * {@link AgentStatusDataProvider}.
-	 */
-	@Autowired
-	AgentStatusDataProvider agentStatusProvider;
 	
 	@RequestMapping(method = RequestMethod.GET, value = "overview")
 	@ResponseBody
@@ -84,15 +77,12 @@ public class AgentDataRestfulService {
 	
 	@RequestMapping(method = RequestMethod.GET, value = "myOverview")
 	@ResponseBody
-	// returns Map like this one: {"tomcat":"CONNECTED","jetty":"DISCONNECTED"}
-	//public Map<String, AgentStatusData.AgentConnection> getMyAgentsOverview() {
+	// returns Map like this one: {"tomcat":"CONNECTED, id=30, Version=1.6.2.65","jetty":"CONNECTED, id=31, Version=1.6.2.65"}
 	public Map<String, String> getMyAgentsOverview() {
 		Map<PlatformIdent, AgentStatusData> agentsOverviewMap = getAgentsOverview();
-		//Map<String, AgentStatusData.AgentConnection> agentsMap = new HashMap<String, AgentStatusData.AgentConnection>();
 		Map<String, String> agentsMap = new HashMap<String, String>();
 		
 		for (PlatformIdent platformIdent : agentsOverviewMap.keySet()) {
-			// agentsMap.put(platformIdent.getAgentName(), agentsOverviewMap.get(platformIdent).getAgentConnection());
 			agentsMap.put(platformIdent.getAgentName(),
 					agentsOverviewMap.get(platformIdent).getAgentConnection().toString() + ", id=" + platformIdent.getId() + ", Version=" + platformIdent.getVersion());
 		}
